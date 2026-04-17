@@ -1,0 +1,22 @@
+// ─── AppError ───────────────────────────────────────────────────────────────
+// All intentional errors thrown in services/controllers must use this class.
+// The global error handler inspects instanceof AppError to decide response shape.
+
+export class AppError extends Error {
+  public readonly statusCode: number
+  public readonly code: string
+  public readonly isOperational: boolean
+
+  constructor(
+    message: string,
+    statusCode: number = 500,
+    code: string = 'INTERNAL_ERROR'
+  ) {
+    super(message)
+    this.name = 'AppError'
+    this.statusCode = statusCode
+    this.code = code
+    this.isOperational = true
+    Error.captureStackTrace(this, this.constructor)
+  }
+}
